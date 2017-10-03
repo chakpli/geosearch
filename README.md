@@ -7,5 +7,5 @@
 - sbt clean; sbt assembly
 
 # To run:
-- scala -J-Xmx1024m -cp target/scala-2.11/geosearch-assembly-0.0.1.jar geo.Main
-- scala -J-Xmx1024m -cp target/scala-2.11/geosearch-assembly-0.0.1.jar geo.Main reindex (takes ~30 mins to index >70000000 docs)
+- scala -J-Xmx6144m -cp target/scala-2.11/geosearch-assembly-0.0.1.jar geo.Main (take ~60mins to search all docs foreach ~17k neighbors)
+- scala -J-Xmx6144m -cp target/scala-2.11/geosearch-assembly-0.0.1.jar geo.Main reindex (takes ~30 mins to index ~72000000 docs and take ~60mins to search all docs foreach ~17k neighbors)
