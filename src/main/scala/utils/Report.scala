@@ -15,13 +15,13 @@ case class Report() {
   def getCountMap:Map[String,Int] = countMap.toMap
   def getIds:Set[String] = docIds.toSet
   
-  def incrCountMap(k:String, v:Int){
+  def incrCountMap(k:String, v:Int) = synchronized{
     countMap.get(k) match{ 
       case None => countMap.put(k, v)
       case Some(_k)=> countMap.put(k, _k + v)}
   }
   
-  def addIds(s:Seq[String]){
+  def addIds(s:Seq[String]) = synchronized{
     s.map(_s=>docIds.add(_s))
   }
 }

@@ -38,6 +38,8 @@ import com.spatial4j.core.shape.Shape;
 import java.io.File
 import utils.Data
 import geotrellis.shapefile.`package`.Record
+import utils.Report
+import java.util.concurrent.ExecutorService
 
 
 /**
@@ -122,7 +124,7 @@ case class SpatialIndexer(indexPath: String) {
     val sargs = new SpatialArgs(SpatialOperation.IsWithin, ctx.makeRectangle(minLat, maxLat, minLng, maxLng));
 
     val filter = strategy.makeFilter(sargs)
-    val limit = Int.MaxValue
+    val limit = 500000
     val topDocs = searcher.search(new MatchAllDocsQuery(), filter,limit)
 
     val scoreDocs = topDocs.scoreDocs
@@ -134,6 +136,13 @@ case class SpatialIndexer(indexPath: String) {
     
     scoreDocs
   }
-  
+}
 
+case class SearchRunnable(record:Record, s:SpatialIndexer, report:Report, name:String) extends Runnable{
+  def run {
+    val ids = s.searchBBoxAndGetDocID(record)
+    println("searched for neighborhood in " + name + " contains doc size:" + ids.length)
+    report.addIds(ids)
+    report.incrCountMap(name, ids.length)
+  }
 }
