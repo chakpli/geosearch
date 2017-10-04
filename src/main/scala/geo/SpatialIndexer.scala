@@ -96,7 +96,7 @@ case class SpatialIndexer(indexPath: String) {
       val id = i._1.id
       (c.latitude, c.longitude) match {
         case (Some(lt), Some(lg)) =>
-          if (Math.abs(lt) <= 90.0 && Math.abs(lg) <= 180.0)
+          if (Math.abs(lt) <= 90.0 && Math.abs(lg) <= 180.0 && i._1.is_claimed)
             indexWriter.addDocument(newGeoDocument(id, id.toString, ctx.makePoint(lg, lt)))
           else
             println("not index" + i._2)
